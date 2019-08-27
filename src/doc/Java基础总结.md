@@ -46,9 +46,9 @@
 ## 三、Java集合
 
 ### 1.List
-  
+
 列表，有序，按存入的顺序排列
-  
+
 + ArrayList
 + LinkedList
 + Vector
@@ -183,3 +183,23 @@ public boolean equals(Object anObject) {
 + final修饰的方法表示该方法不会被子类重写
 + final修饰的类表示该被不能被继承
 + final修饰的类属性和变量属性必须要进行显示初始化赋值
+
+## 九、Comparable接口和Comparator接口的区别
+
+### 1.Comparable接口
+
++ Comparable接口是在java.lang包下
++ Comparable接口只有一个compareTo方法，该方法支持类似于equals方法比较两个对象的等同性，还支持执行顺序的比较，并且是泛型方法
++ 类实现了Comparable接口表示该类的实例具有内在的排序关系，即自然排序
++ 比较两个对象的时候，前一个对象小于、等于或大于指定的对象时，该方法分别返回一个负整数、零或者正整数
++ compareTo方法中的比较是顺序的比较，而不是等同性的比较。而compareTo方法的等同性测试，在通常情况下应该返回与equals方法同样的结果。即说明compareTo方法所施加的顺序关系与equals一致，否则则说明顺序关系和equals不一致
++ 在使用compareTo方法比较null时，应该抛出NullPointerException异常
++ 有序集合使用了由compareTo方法而不是equals方法所施加的等同性测试
+
+### 2.Comparator接口
+
++ Comparator接口属于集合框架的一部分，在java.util包下
++ Comparator接口主要是用来在外部定制排序规则
++ Comparactor接口可以针对当前类生成多个定制排序类，通过comapre方法比较两个对象实例是否一致，而Comparable接口则只能实现一次
++ Comparactor接口的实现类可以作为排序策略参数传递给一些排序方法，如Collections.sort()、Arrays.sort(),或者一些有序接口如(SortedSet、SortedMap)
++ 使用Comparactor接口实现排序策略可以避免向原有类添加额外的代码
