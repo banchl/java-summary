@@ -12,6 +12,8 @@
 - [5. ==和equals方法的区别?](#五、==和equals方法的区别)
 - [6. 接口和抽象类的区别](#六、接口和抽象类的区别)
 - [7. public、protected、private、默认修饰符](#七、public、protected、private、默认修饰符)
+- [8. static、final修饰符](#八、static、final修饰符)
+- [9. Comparable接口和Comparator接口的区别](九、Comparable接口和Comparator接口的区别)
 
 <!-- /TOC -->
 
@@ -163,7 +165,7 @@ public boolean equals(Object anObject) {
 
 ## 八、static、final修饰符
 
-### 1.static修饰符
+### 1. static修饰符
 
 可修饰变量、方法、代码块和静态内部类
 
@@ -174,7 +176,7 @@ public boolean equals(Object anObject) {
 + static修饰的属性不会发生继承，只能被当前类声明使用
 + static方法中不可以使用this关键字，static修饰的代码块只在类被加载的时候执行一次
 
-### 2.final修饰符
+### 2. final修饰符
 
 可修饰变量、方法和类
 
@@ -186,7 +188,7 @@ public boolean equals(Object anObject) {
 
 ## 九、Comparable接口和Comparator接口的区别
 
-### 1.Comparable接口
+### 1. Comparable接口
 
 + Comparable接口是在java.lang包下
 + Comparable接口只有一个compareTo方法，该方法支持类似于equals方法比较两个对象的等同性，还支持执行顺序的比较，并且是泛型方法
@@ -196,10 +198,27 @@ public boolean equals(Object anObject) {
 + 在使用compareTo方法比较null时，应该抛出NullPointerException异常
 + 有序集合使用了由compareTo方法而不是equals方法所施加的等同性测试
 
-### 2.Comparator接口
+### 2. Comparator接口
 
 + Comparator接口属于集合框架的一部分，在java.util包下
 + Comparator接口主要是用来在外部定制排序规则
 + Comparactor接口可以针对当前类生成多个定制排序类，通过comapre方法比较两个对象实例是否一致，而Comparable接口则只能实现一次
 + Comparactor接口的实现类可以作为排序策略参数传递给一些排序方法，如Collections.sort()、Arrays.sort(),或者一些有序接口如(SortedSet、SortedMap)
 + 使用Comparactor接口实现排序策略可以避免向原有类添加额外的代码
+
+## 十、volatile、synchronized关键字
+
+### 1. volatile关键字
+
++ volatile关键字保证了多个线程之间对变量操作的内存可见性以及禁止了指令重排
++ 在写一个volatile变量时，Java内存模型会将当前线程的内存副本中的变量值刷新到主内存当中
++ 在读一个volatile变量时，Java内存模型会将当前线程的内存副本中的变量值置为无效，重新读取主内存中该变量的值
++ 内存屏障提供了以下保证：
+  - 重排序时不能将后面的指令重排序到内存屏障之前
+  - 将当前CPU的缓存写入内存
+  - 写入操作会引起其他CPU或其他内核无效化其缓存
++ JVM会在每个volatile变量的写操作前插入StoreStore屏障，在写操作后插入StoreLoad屏障
++ JVM会在每个volatile变量的读操作前插入LoadLoad屏障，在读操作之后插入LoadStore屏障
++ volatile变量只能保证可见性，主要用在符合以下两条规则的运算场景中：
+   - 运算结果并不依赖变量的当前值，或者能够确保只有单一线程修改变量的值
+   - 变量不需要与其他的状态变量共同参与不变约束
