@@ -14,6 +14,7 @@
 - [7. public、protected、private、默认修饰符](#七、public、protected、private、默认修饰符)
 - [8. static、final修饰符](#八、static、final修饰符)
 - [9. Comparable接口和Comparator接口的区别](九、Comparable接口和Comparator接口的区别)
+- [10. volatile、synchronized关键字](十、volatile、synchronized关键字)
 
 <!-- /TOC -->
 
@@ -222,3 +223,23 @@ public boolean equals(Object anObject) {
 + volatile变量只能保证可见性，主要用在符合以下两条规则的运算场景中：
    - 运算结果并不依赖变量的当前值，或者能够确保只有单一线程修改变量的值
    - 变量不需要与其他的状态变量共同参与不变约束
+
+### 2. synchronized关键字
+
+synchronized关键字主要是用来避免多线程死锁问题，类似的还有lock、condition、threadlocal、atomic包和cas
+
+synchronized的用法：
+
+synchronized主要是修饰在对象上面，其中分为以下几种情况
+
+1. 修饰一个类，作用对象是这个类对象，属于**类对象锁**，作用范围为这个类的所有对象
+2. 修饰在静态方法上，作用对象同样是这个**类对象**，作用范围同样是这个类的所有对象
+3. 修饰在代码块，指向私有变量，作用对象是**当前对象**，作用范围为当前对象代码块的所有线程
+4. 修饰在普通方法上，作用对象依旧是**当前对象**，作用范围也是访问当前对象代码块的所有线程
+
+以下几点需要注意
+
+- 在定义接口方法时不能使用synchronized关键字。
+- 构造方法不能使用synchronized关键字，但可以使用synchronized代码块来进行同步。
+- synchronized 关键字不能被继承 。如果子类覆盖了父类的 被 synchronized 关键字修饰的方法，那么子类的该方法只要没有 synchronized 关键字，那么就默认没有同步，也就是说，不能继承父类的 synchronized。
+- 应该尽量使用私有变量进行同步，这样可以避免其他代码锁定当前对象，相比起使用this引用避免了过度同步
